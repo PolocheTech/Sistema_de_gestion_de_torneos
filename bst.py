@@ -52,14 +52,47 @@ class BST():
         
         return self._buscar(nodo.derecho, puntaje)
 
+    def eliminar(self, puntaje):
+        self.raiz = self._eliminar(self.raiz, puntaje)
 
-if __name__ == "__main__":
-    arbol = BST()
-    arbol.insertar("NinjaX", 50)
-    arbol.insertar("JuanPro", 100)
-    arbol.insertar("AnaGamer", 200)
-    arbol.insertar("ShadowK", 75)
+    def _eliminar(self, nodo, puntaje):
+        # Caso base: jugador no encontrado
+        if nodo is None:
+            return "Jugador no encontrado"
 
-    print(arbol.buscar(75))    # → ('ShadowK', 75)
-    print(arbol.buscar(100))   # → ('JuanPro', 100)
-    print(arbol.buscar(999))   # → 'Jugador no encontrado'
+        # Caminar por el árbol (igual que en buscar)
+        if puntaje < nodo.puntaje:
+            nodo.izquierdo = self._eliminar(nodo.izquierdo, puntaje)
+        elif puntaje > nodo.puntaje:
+            nodo.derecho = self._eliminar(nodo.derecho, puntaje)
+        else:
+            # Encontré el nodo → aquí van los 3 casos
+
+            # Caso 1: sin hijos
+            if nodo.izquierdo is None and nodo.derecho is None:
+                return None
+
+            # Caso 2: un solo hijo
+            elif nodo.izquierdo is None:
+                return nodo.derecho
+            elif nodo.derecho is None:
+                return nodo.izquierdo
+
+            # Caso 3: dos hijos
+            else:
+                # buscar el mínimo del subárbol derecho
+                # copiar sus datos
+                # eliminar el sucesor
+
+                sucesor = self._minimo(nodo.derecho)
+                nodo.jugador = sucesor.jugador
+                nodo.puntaje = sucesor.puntaje
+
+                nodo.derecho = self._eliminar(nodo.derecho, sucesor.puntaje)
+
+        return nodo
+
+    def _minimo(self, nodo):
+        while nodo.izquierdo is not None:
+            nodo = nodo.izquierdo
+        return nodo
