@@ -1,0 +1,53 @@
+from cola import Queue, Jugador
+from pila import Stack, Partida
+from bst import BST
+
+def cargar_datos_iniciales(cola, pila, bst):
+    jugadores = [
+        Jugador("Juan Perez", "JuanPro", 100),
+        Jugador("Ana Gabriel", "AnaGamer", 75),
+        Jugador("Alexis", "AlexElPro", 200),
+        Jugador("Abelardo de la aspriella", "Abelardo", 50),
+        Jugador("Vicente Fernandez", "ElCaballo", 500)
+        ]
+    
+    for jugador in jugadores:
+        cola.encolar(jugador)
+        bst.insertar(jugador.alias, jugador.puntaje)
+
+    print("5 jugadores cargados correctamente.")
+
+def mostrar_menu():
+    print("\n"+"<"+"-"*20+"Bienvenido a PixelArena"+"-"*20+">"+"\n")
+    print("<-¡Preparado para comenzar el juego!->\n")
+    print("Lista de comandos\n1) Ingresar jugador\n2) Llama al siguiente jugador\n3) Ver proximo jugador\n4) Registrar resultado de llamada\n5) Deshacer el ultimo resultado")
+
+def main():
+    cola = Queue()
+    pila = Stack()
+    bst = BST()
+
+    cargar_datos_iniciales(cola, pila, bst)
+
+    while True:
+        mostrar_menu()
+        opcion = input("Seleccionar una opcion: ")
+
+        if opcion == "0":
+            print("Hasta luego")
+            break
+
+        elif opcion == "1":
+            nombre = input("Ingresa tu nombre: ")
+            apodo = input("Ingresa tu apodo: ")
+            puntaje = int(input("Ingresa tu puntaje: "))
+            cola.encolar(Jugador(nombre, apodo, puntaje))
+
+        elif opcion == "2":
+            cola.desencolar()
+
+        elif opcion == "3":
+            cola.ver_primero()
+
+
+main()
