@@ -32,7 +32,6 @@ class Queue():
             return "La cola esta vacia."
         
         return self._elementos[0]
-    
 
     def mostrar_cola(self):
         if self.esta_vacia():
